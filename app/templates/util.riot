@@ -11,11 +11,7 @@ logout
     tag.on('mount', init);
 
     function init() {
-
       sessionStorage.clear();
-
-      const route = require('riot-route');
-      route('');
       location.reload();
-
+      require('scripts/link').to('login');
     }

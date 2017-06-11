@@ -78,8 +78,7 @@ app
     }
 
     function complete(data) {
-      const route = require('riot-route');
-      route('');
+      require('scripts/link').to('');
       tag.update();
       require('scripts/session')(data);
     }
