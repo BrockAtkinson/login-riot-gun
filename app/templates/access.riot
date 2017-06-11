@@ -1,0 +1,20 @@
+access
+  p { opts.type }
+  form(onsubmit='{ action }')
+    input(type='text' placeholder='username' ref='username')
+    input(type='password' placeholder='password' ref='password')
+    input(type='submit' value='{ opts.type }')
+
+  script.
+    'use strict';
+    const tag = this;
+    tag.action = action;
+
+    function action(e) {
+      e.preventDefault();
+      var data = {
+        alias: tag.refs.username.value,
+        pass: tag.refs.password.value
+      };
+      opts.send(data);
+    }

@@ -1,0 +1,85 @@
+app
+  navigation(menu='{ menu }' status='{ status }')
+  router
+    route(path='')
+      p hello { parent.parent.name }
+    route(path='users')
+      virtual(each='{ user in parent.parent.users }')
+        p { user.name }
+        span.id { JSON.stringify(user.id) }
+    route(path='register')
+      access(type='register' send='{ parent.parent.register }')
+    route(path='login')
+      access(type='login' send='{ parent.parent.login }')
+    route(path='logout')
+      logout
+
+  script.
+    'use strict';
+    const tag = this;
+    tag.login = login;
+    tag.register = register;
+    tag.on('mount', init);
+
+    tag.users = [];
+    tag.status = false;
+    tag.name = '?';
+    tag.menu = require('scripts/menu');
+
+    function login(data) {
+      user.auth(data.alias, data.pass, function(ack) {
+        // console.log('login user:', ack);
+        ack.err ?
+          console.error(ack.err) :
+          complete(data);
+      });
+    }
+
+    function register(data) {
+      user.create(data.alias, data.pass, function(ack) {
+        if(ack.err) { return }
+        if(ack.pub) {
+          gun
+            .get('users')
+              .get(data.alias)
+                .put(
+                  gun
+                    .get('alias/' + data.alias)
+                );
+        }
+        user.auth(data.alias, data.pass, function() {
+          complete(data);
+        });
+      });
+    }
+
+    const Gun = require('gun');
+    require('scripts/crypto');
+    require('scripts/sea');
+
+    const gun = new Gun();
+    var user = gun.user();
+
+    require('scripts/auth').run(tag);
+
+    function init() {
+      if(sessionStorage.alias && sessionStorage.tmp) {
+        user.auth(sessionStorage.alias, sessionStorage.tmp);
+      }
+      gun
+        .get('users')
+          .map()
+            .val(insert);
+    }
+
+    function insert(key, val) {
+      tag.users.push({name: val, id: key['_']['>']});
+      tag.update();
+    }
+
+    function complete(data) {
+      const route = require('riot-route');
+      route('');
+      tag.update();
+      require('scripts/session')(data);
+    }

@@ -1,0 +1,29 @@
+{
+  "name": "login-riot-gun",
+  "description": "login gun + riot",
+  "author": "Brock Atkinson",
+  "version": "0.1.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brockatkinson/login-gun-riot"
+  },
+  "scripts": {
+    "start": "brunch watch --server",
+    "build": "brunch build --production"
+  },
+  "devDependencies": {
+    "auto-reload-brunch": "^2.7.1",
+    "clean-css-brunch": "^2.0.0",
+    "gzip-brunch": "^1.3.0",
+    "pugjs-brunch": "^2.10.0",
+    "riot-brunch": "^0.1.1",
+    "uglify-js-brunch": "^2.0.1"
+  },
+  "dependencies": {
+    "crypto-js": "^3.1.9-1",
+    "gun": "^0.7.9",
+    "riot": "^3.6.0",
+    "riot-route": "^3.1.1"
+  }
+}

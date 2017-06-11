@@ -1,0 +1,28 @@
+- var title = 'gun+sea w/ riot.js'
+- var description = 'sea w/ riot + gun'
+doctype html
+head
+  meta(charset='utf-8')
+  meta(http-equiv='content-encoding' content='gzip')
+  meta(
+    name='viewport'
+    content='initial-scale=1.0, user-scalable=no'
+  )
+  title= title
+  meta(name='description' content=description)
+  link(rel='stylesheet' href='include/app.css')
+body
+  app
+  script(src='include/app.js')
+  script(src='include/vendor.js')
+  script.
+    window.CryptoJS = require('crypto-js');
+    var riot = require('riot');
+    riot.settings.autoUpdate = false;
+
+    require('templates/app');
+    require('templates/util');
+    require('templates/access');
+    require('riot-route/tag');
+
+    riot.mount('app');

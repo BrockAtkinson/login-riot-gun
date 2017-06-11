@@ -1,0 +1,39 @@
+nav ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 1rem;
+  float: right;
+}
+
+nav li {
+  font-size: 1.5rem;
+  display: inline-block;
+}
+
+nav li a {
+  background-color: white;
+  padding: .5rem 1rem;
+  border: transparent solid 1px;
+  text-decoration-line: none;
+  transition-property: color, border-color, background-color;
+  transition-duration: .33s;
+  transition-timing-function: ease-out;
+}
+
+nav li a:hover {
+  border-color: white;
+  background-color: black;
+  color: white;
+}
+
+nav li + li {
+  margin-left: 1rem;
+}
+
+nav.loggedin .guest {
+  display: none;
+}
+
+nav:not(.loggedin) .account {
+  display: none;
+}

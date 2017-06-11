@@ -1,0 +1,21 @@
+navigation
+  nav(class='{ opts.status }')
+    ul
+      li(each='{ item in opts.menu }' class='{ item.class }')
+        a(href='{ item.link }') { item.title }
+
+logout
+  script.
+    'use strict';
+    const tag = this;
+    tag.on('mount', init);
+
+    function init() {
+
+      sessionStorage.clear();
+
+      const route = require('riot-route');
+      route('');
+      location.reload();
+
+    }
