@@ -1,5 +1,3 @@
-require('gun/gun');
-require('gun/sea');
 require('riot');
 require('riot-route/tag');
 require('templates/access');
