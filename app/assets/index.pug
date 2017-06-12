@@ -4,10 +4,7 @@ doctype html
 head
   meta(charset='utf-8')
   meta(http-equiv='content-encoding' content='gzip')
-  meta(
-    name='viewport'
-    content='initial-scale=1.0, user-scalable=no'
-  )
+  meta(name='viewport' content='initial-scale=1.0, user-scalable=no')
   title= title
   meta(name='description' content=description)
   link(rel='stylesheet' href='include/app.css')
@@ -20,9 +17,9 @@ body
     var riot = require('riot');
     riot.settings.autoUpdate = false;
 
+    require('riot-route/tag');
     require('templates/app');
     require('templates/util');
     require('templates/access');
-    require('riot-route/tag');
 
     riot.mount('app');
