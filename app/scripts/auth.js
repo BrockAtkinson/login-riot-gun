@@ -15,6 +15,7 @@ Gun.on('secure', function(at) {
 
   var no;
   Gun.node.is(at.put.users, function(val, key) {
+    // console.log('val', val, 'key', key);
     if('alias/' + key === Gun.val.rel.is(val)) {
       return;
     }
@@ -29,4 +30,13 @@ function run(obj) {
   tag = obj;
 }
 
+function account(ack, func) {
+  if(ack.err) { return }
+  if(ack.pub) {
+    func();
+  }
+  return;
+}
+
 module.exports.run = run;
+module.exports.account = account;

@@ -28,17 +28,14 @@ app
 
     function login(data) {
       user.auth(data.alias, data.pass, function(ack) {
-        // console.log('login user:', ack);
-        ack.err ?
-          console.error(ack.err) :
-          complete(data);
+        var then = function() { complete(data) };
+        require('scripts/auth').account(ack, then);
       });
     }
 
     function register(data) {
       user.create(data.alias, data.pass, function(ack) {
-        if(ack.err) { return }
-        if(ack.pub) {
+        var then = function() {
           gun
             .get('users')
               .get(data.alias)
@@ -46,10 +43,9 @@ app
                   gun
                     .get('alias/' + data.alias)
                 );
-        }
-        user.auth(data.alias, data.pass, function() {
-          complete(data);
-        });
+        };
+        require('scripts/auth').account(ack, then);
+        login(data);
       });
     }
 
