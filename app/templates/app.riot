@@ -2,10 +2,16 @@ app
   navigation(menu='{ menu }' status='{ status }')
   router
     route(path='')
-      p hello { parent.parent.name }
+      p hello 
+        a(href='#user/{ parent.parent.name }')
+          | { parent.parent.name }
+    route(path='user/*')
+      profile
     route(path='users')
       virtual(each='{ user in parent.parent.users }')
-        p { user.name }
+        p
+          a(href='#user/{ user.name }')
+            | { user.name }
         span.id { JSON.stringify(user.id) }
     route(path='register')
       access(type='register' send='{ parent.parent.register }')
@@ -17,14 +23,26 @@ app
   script.
     'use strict';
     const tag = this;
+    tag.alias = alias;
     tag.login = login;
     tag.register = register;
-    tag.on('mount', init);
 
+    tag.on('mount', init);
     tag.users = [];
     tag.status = false;
-    tag.name = '?';
+    tag.name;
     tag.menu = require('scripts/menu');
+
+    function alias(name) {
+      var alias = gun.get('alias/'+ name);
+      try {
+        var pub = alias['_']['put']['_']['>'];
+      }
+      catch(err) {
+        return; // console.log('error', err);
+      }
+      return pub;
+    }
 
     function login(data) {
       user.auth(data.alias, data.pass, function(ack) {
@@ -78,3 +96,20 @@ app
       tag.update();
       require('scripts/session')(data);
     }
+
+profile
+  p { name }
+  span.id { key }
+  script.
+    'use strict';
+    const tag = this;
+
+    tag.on('route', function(id) {
+      var key = tag.parent.parent.parent.alias(id)
+      if(key) {
+        tag.name = id;
+        tag.key = JSON.stringify(key);
+      } else {
+        require('scripts/link').to('users');
+      }
+    });
