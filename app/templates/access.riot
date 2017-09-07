@@ -3,6 +3,7 @@ access
   form(onsubmit='{ action }')
     input(type='text' placeholder='username' ref='username')
     input(type='password' placeholder='password' ref='password')
+    input(type='password' placeholder='new password' ref='newpassword')
     input(type='submit' value='{ opts.type }')
 
   script.
@@ -14,7 +15,8 @@ access
       e.preventDefault();
       var data = {
         alias: tag.refs.username.value,
-        pass: tag.refs.password.value
+        pass: tag.refs.password.value,
+        newpass: tag.refs.newpassword.value
       };
       opts.send(data);
     }

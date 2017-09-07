@@ -2,7 +2,7 @@ app
   navigation(menu='{ menu }' status='{ status }')
   router
     route(path='')
-      p hello 
+      p hello&nbsp
         a(href='#user/{ parent.parent.name }')
           | { parent.parent.name }
     route(path='user/*')
@@ -45,10 +45,11 @@ app
     }
 
     function login(data) {
+      var props = data.newpass && { newpass: data.newpass };
       user.auth(data.alias, data.pass, function(ack) {
         var then = function() { complete(data) };
         require('scripts/auth').account(ack, then);
-      });
+      }, props);
     }
 
     function register(data) {
@@ -68,7 +69,6 @@ app
     }
 
     const Gun = require('gun');
-    require('scripts/crypto');
     require('scripts/sea');
 
     const gun = new Gun();
